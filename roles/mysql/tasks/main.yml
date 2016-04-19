@@ -1,14 +1,5 @@
 ---
 # tasks file for mysql
-- name: Download my_package
-  get_url: 
-    url="{{ mysql_url }}"
-    dest="/tmp/{{ mysql_deb }}"
-
-- name: Install MySQL repo
-  become: yes
-  apt: deb="/tmp/{{ mysql_deb }}"
-
 - name: Install MySQL
   become: yes
   apt:
