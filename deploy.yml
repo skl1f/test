@@ -1,0 +1,8 @@
+---
+
+- name: Install MySql and create users
+  hosts: targets
+  become_user: root
+
+  roles:
+    - wordpress
