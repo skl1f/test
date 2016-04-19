@@ -68,7 +68,7 @@
 
 - name: Create index.php file
   become: yes
-  template: src=index.php.j2 dest=/var/www/html/index.php
+  template: src=index.php.j2 dest=/var/www/html/index.php owner=www-data group=www-data
   notify:
    - hhvm repo mode
    - restart hhvm
