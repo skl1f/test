@@ -1,0 +1,5 @@
+---
+# tasks file for wordpress
+
+- name: Download wordpress
+  - get_url:

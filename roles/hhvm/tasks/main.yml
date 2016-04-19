@@ -1,0 +1,54 @@
+---
+# tasks file for hhvm
+- name: Add HHVM key
+  apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=0x5a16e7281be7a449 
+
+- name: Add nginx key
+  apt_key: url=http://nginx.org/keys/nginx_signing.key state=present
+
+- name: Add HHVM repo
+  apt_repository: repo='deb http://dl.hhvm.com/debian jessie main' state=present
+
+- name: Add nginx repo
+  apt_repository: repo='deb http://nginx.org/packages/mainline/debian/ jessie nginx' state=present
+
+- name: Install packages
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+    install_recommends: False
+  with_items:
+    - hhvm
+    - nginx
+
+- name: Install_fastcgi
+  shell: /usr/share/hhvm/install_fastcgi.sh
+
+- name: Add HHVM to startup
+  shell: update-rc.d hhvm defaults
+
+- name: Add nginx to startup
+  shell: update-rc.d nginx defaults
+
+- name: Set HHVM as php alternative
+  shell: /usr/bin/update-alternatives --install /usr/bin/php php /usr/bin/hhvm 60
+
+- name: Start HHVM 
+  become: yes
+  service: name=hhvm state=started enabled=yes
+
+- name: Start nginx
+  become: yes
+  service: name=nginx state=started enabled=yes
+
+- name: Create HHVM configuration file
+  become: yes
+  template: src=server.ini.j2 dest=/etc/hhvm/server.ini
+  notify:
+   - restart hhvm 
+
+- name: Create nginx configuration file
+  become: yes
+  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
+  notify:
+   - restart nginx 

@@ -1,0 +1,50 @@
+---
+# tasks file for mysql
+- name: Download my_package
+  get_url: 
+    url="{{ mysql_url }}"
+    dest="/tmp/{{ mysql_deb }}"
+
+- name: Install MySQL repo
+  become: yes
+  apt: deb="/tmp/{{ mysql_deb }}"
+
+- name: Install MySQL
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - mysql-server
+    - mysql-client
+    - python-mysqldb
+
+- name: Start MySQL
+  become: yes
+  service: name=mysql state=started enabled=yes
+
+- name: Get root password
+  become: yes
+  shell: cat /var/log/mysqld.log | grep "temporary password" | tail -c 13
+  register: root_password 
+
+- name: Set new root password
+  become: yes
+  shell: mysqladmin -P {{ mysql_port }} -u root -p'{{ root_password.stdout }}' password '{{ mysql_root_password }}'
+  ignore_errors: yes
+
+- name: copy .my.cnf file with root password credentials
+  become: yes
+  template:
+    src: .my.cnf
+    dest: ~/.my.cnf
+    owner: root
+    mode: 0600
+
+- name: Create Mysql configuration file
+  become: yes
+  template: src=my.cnf.j2 dest=/etc/my.cnf
+  notify: 
+   - restart mysql
+

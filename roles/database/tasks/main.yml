@@ -1,0 +1,36 @@
+---
+# tasks file for db_users
+
+- name: Create databases
+  mysql_db: 
+        login_user=root 
+        login_password={{ mysql_root_password }} 
+        login_unix_socket={{ mysql_socket }} 
+        name={{ item.db }}
+        state=present
+  with_items: db_cred
+
+- name: Create user
+  ignore_errors: yes
+  mysql_user:
+        login_user=root
+        login_password={{ mysql_root_password }}
+        login_unix_socket={{ mysql_socket }}
+        name={{ item.user }}
+        password={{ item.pass }}
+        host='localhost'
+        state=present
+  with_items: db_cred
+
+
+- name: Grant access
+  ignore_errors: yes
+  mysql_user:
+        login_user=root
+        login_password={{ mysql_root_password }}
+        login_unix_socket={{ mysql_socket }}
+        name={{ item.user }} 
+        priv={{ item.db }}.*:ALL 
+        host='localhost' 
+        state=present
+  with_items: db_cred

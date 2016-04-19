@@ -1,0 +1,17 @@
+---
+mysql_deb: mysql-apt-config_0.7.2-1_all.deb 
+mysql_url: http://repo.mysql.com/{{ mysql_deb }}
+mysql_port: 3306
+mysql_root_password: 0!cdXg#;(DT! 
+mysql_socket: /var/run/mysqld/mysqld.sock 
+mysql_datadir: /var/lib/mysql
+mysql_log: /var/lig/mysqld.log
+mysql_pid: /var/run/mysqld/mysqld.pid 
+mysql_user: mysql
+
+db_cred:
+  - { user: 'wpdbu', db: 'wpdb', pass: '13LAVeRNA=' }
+
+wp_latest: https://wordpress.org/latest.tar.gz
+wp_version: 4.5
+wp_url: https://wordpress.org/wordpress-{ wp_version }.zip
