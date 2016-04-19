@@ -42,9 +42,9 @@
   become: yes
   shell: /usr/bin/update-alternatives --install /usr/bin/php php /usr/bin/hhvm 60
 
-- name: Ensures /var/www/html dir exists
+- name: Ensures {{ wp_dir }} dir exists
   become: yes
-  file: path=/var/www/html state=directory owner=www-data group=www-data
+  file: path={{ wp_dir }} state=directory owner=www-data group=www-data
 
 - name: Start HHVM 
   become: yes

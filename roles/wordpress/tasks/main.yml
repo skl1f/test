@@ -2,4 +2,29 @@
 # tasks file for wordpress
 
 - name: Download wordpress
-  - get_url:
+  get_url: url={{ wp_url }} dest=/tmp/wordpress.tgz
+
+- name: Protect sensitive wp-files from being deleted.
+  no_log: true
+  ignore_errors: yes
+  shell: |
+    chattr -R +i {{ wp_dir }}/wp-confing.php  wp_dir }}/wp-confing.php  
+    chattr -R +i {{ wp_dir }}/wp-confing.php  wp_dir }}/wp-content/
+    chattr -R +i {{ wp_dir }}/wp-confing.php  wp_dir }}/wp-images/
+    chattr -R +i {{ wp_dir }}/wp-confing.php  wp_dir }}/wp-includes/languages/
+    chattr -R +i {{ wp_dir }}/wp-confing.php  wp_dir }}/.htaccess
+    chattr -R +i {{ wp_dir }}/wp-confing.php  wp_dir }}/robots.txt
+
+- name: Unpack wordpress
+  shell: tar -zx --xform s/wordpress// -f /tmp/wordpress.tgz -C {{ wp_dir }}
+
+- name: Remove protection from sensitive wp-files.
+  no_log: true
+  ignore_errors: yes
+  shell: |
+    chattr -R -i {{ wp_dir }}/wp-confing.php  wp_dir }}/wp-confing.php
+    chattr -R -i {{ wp_dir }}/wp-confing.php  wp_dir }}/wp-content/
+    chattr -R -i {{ wp_dir }}/wp-confing.php  wp_dir }}/wp-images/
+    chattr -R -i {{ wp_dir }}/wp-confing.php  wp_dir }}/wp-includes/languages/
+    chattr -R -i {{ wp_dir }}/wp-confing.php  wp_dir }}/.htaccess
+    chattr -R -i {{ wp_dir }}/wp-confing.php  wp_dir }}/robots.txt
