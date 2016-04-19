@@ -2,5 +2,5 @@
 # handlers file for mysql
 - name: restart mysql
   become: yes
-  service: name=mysqld state=restarted enabled=yes
+  service: name=mysql state=restarted enabled=yes
 
