@@ -16,6 +16,8 @@
     chattr -R +i {{ wp_dir }}/robots.txt
 
 - name: Unpack wordpress
+  ignore_errors: yes
+  no_log: true
   shell: tar -zx --xform s/wordpress// -f /tmp/wordpress.tgz -C {{ wp_dir }}
 
 - name: Remove protection from sensitive wp-files.
@@ -28,3 +30,14 @@
     chattr -R -i {{ wp_dir }}/wp-includes/languages/
     chattr -R -i {{ wp_dir }}/.htaccess
     chattr -R -i {{ wp_dir }}/robots.txt
+
+- name: Set correct owner:group
+  file: path={{ wp_dir }} state=directory recurse=yes owner=www-data group=www-data
+
+- name: hhvm repo mode
+  shell: /usr/bin/hhvm-repo-mode enable /var/www/html
+
+- name: restart hhvm
+  become: yes
+  service: name=hhvm state=restarted
+
