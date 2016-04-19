@@ -41,32 +41,10 @@ http {
   fastcgi_read_timeout 300;
 
   server {
-    listen      80;
-    server_name	127.0.0.1;
-    rewrite     ^   https://$server_name$request_uri? permanent;
-  }
-
-  server {
-    listen 443 ssl;
+    listen *:80;
     charset utf-8;
     server_name 127.0.0.1;
     error_log /var/log/nginx/d.nginx.log debug;
-
-    add_header Strict-Transport-Security "max-age=31557600";
-    add_header X-Frame-Options "SAMEORIGIN" always;
-    add_header X-Content-Type-Options "nosniff" always;
-    add_header X-Xss-Protection "1";
-    add_header Content-Security-Policy "default-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' https:; connect-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' data: https:; sandbox allow-forms allow-scripts";
-
-    ssl  on;
-    ssl_certificate /etc/ssl/keys/ssl.crt;
-    ssl_certificate_key /etc/ssl/keys/ssl.key;
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-    ssl_ciphers EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
-    ssl_prefer_server_ciphers On;
-    ssl_session_cache shared:SSL:128m;
-    ssl_stapling on;
-    ssl_stapling_verify on;
 
     resolver 8.8.8.8;
     root              /var/www/html;
