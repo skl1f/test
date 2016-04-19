@@ -8,12 +8,12 @@
   no_log: true
   ignore_errors: yes
   shell: |
-    chattr -R +i {{ wp_dir }}/wp-confing.php  wp_dir }}/wp-confing.php  
-    chattr -R +i {{ wp_dir }}/wp-confing.php  wp_dir }}/wp-content/
-    chattr -R +i {{ wp_dir }}/wp-confing.php  wp_dir }}/wp-images/
-    chattr -R +i {{ wp_dir }}/wp-confing.php  wp_dir }}/wp-includes/languages/
-    chattr -R +i {{ wp_dir }}/wp-confing.php  wp_dir }}/.htaccess
-    chattr -R +i {{ wp_dir }}/wp-confing.php  wp_dir }}/robots.txt
+    chattr -R +i {{ wp_dir }}/wp-confing.php  
+    chattr -R +i {{ wp_dir }}/wp-content/
+    chattr -R +i {{ wp_dir }}/wp-images/
+    chattr -R +i {{ wp_dir }}/wp-includes/languages/
+    chattr -R +i {{ wp_dir }}/.htaccess
+    chattr -R +i {{ wp_dir }}/robots.txt
 
 - name: Unpack wordpress
   shell: tar -zx --xform s/wordpress// -f /tmp/wordpress.tgz -C {{ wp_dir }}
@@ -22,9 +22,9 @@
   no_log: true
   ignore_errors: yes
   shell: |
-    chattr -R -i {{ wp_dir }}/wp-confing.php  wp_dir }}/wp-confing.php
-    chattr -R -i {{ wp_dir }}/wp-confing.php  wp_dir }}/wp-content/
-    chattr -R -i {{ wp_dir }}/wp-confing.php  wp_dir }}/wp-images/
-    chattr -R -i {{ wp_dir }}/wp-confing.php  wp_dir }}/wp-includes/languages/
-    chattr -R -i {{ wp_dir }}/wp-confing.php  wp_dir }}/.htaccess
-    chattr -R -i {{ wp_dir }}/wp-confing.php  wp_dir }}/robots.txt
+    chattr -R -i {{ wp_dir }}/wp-confing.php
+    chattr -R -i {{ wp_dir }}/wp-content/
+    chattr -R -i {{ wp_dir }}/wp-images/
+    chattr -R -i {{ wp_dir }}/wp-includes/languages/
+    chattr -R -i {{ wp_dir }}/.htaccess
+    chattr -R -i {{ wp_dir }}/robots.txt
